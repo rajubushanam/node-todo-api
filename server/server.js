@@ -50,6 +50,23 @@ else {
   console.log('Error in reading the data by ID');
 });
 
+app.delete('/todos/:id', (req, res) => {
+  var id =req.params.id;
+  if(ObjectID.isValid(id))
+  {
+    Todo.findByIdAndRemove(id).then((todo) => {
+      if(!todo)
+        return res.status(404).send();
+      res.send({todo});
+    }).catch((e) => {
+      res.status(400).send();
+    });
+  }
+  else {
+      return res.status(404).send();
+    }
+});
+
 
 
 app.listen(port, () => {
