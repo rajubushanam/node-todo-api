@@ -4,9 +4,11 @@ var bodyParser = require('body-parser');
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo.js');
 var {User} = require('./models/user.js');
+var {ObjectID} = require('mongodb');
 
 
 var app = express();
+const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
@@ -29,8 +31,27 @@ app.get('/todos', (req, res) => {
   })
 });
 
+app.get('/todos/:id', (req, res) => {
+  var id = req.params.id;
+if(ObjectID.isValid(id))
+{
+  Todo.findById(id).then((todo) => {
+    if(!todo)
+      return res.status(404).send();
+    res.send({todo});
+  }).catch((e) => {
+    res.status(400).send();
+  });
+}
+else {
+  return res.status(404).send();
+}
+}, () => {
+  console.log('Error in reading the data by ID');
+});
 
 
-app.listen(3000, () => {
+
+app.listen(port, () => {
   console.log('Server Started on 3000');
 });
