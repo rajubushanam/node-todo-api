@@ -6,6 +6,7 @@ var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo.js');
 var {User} = require('./models/user.js');
 var {ObjectID} = require('mongodb');
+var config = require('./config/config.js');
 
 
 var app = express();
