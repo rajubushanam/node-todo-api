@@ -6,7 +6,8 @@ var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo.js');
 var {User} = require('./models/user.js');
 var {ObjectID} = require('mongodb');
-var config = require('./config/config.js');
+require('./config/config');
+
 
 
 var app = express();
@@ -89,6 +90,18 @@ app.patch('/todos/:id', (req, res) => {
      res.send({todo});
   }).catch((e) => {
     res.status(400).send();
+  });
+});
+
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['userName', 'email', 'password']);
+  console.log(body);
+  var user = new User(body);
+  user.save().then((user) => {
+    res.send(user);
+  }, (e) => {
+    res.status(400).send();
+    console.log('Error in Creating user', e);
   });
 });
 
