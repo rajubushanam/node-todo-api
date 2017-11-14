@@ -19,6 +19,7 @@ app.post('/todos', (req, res) => {
     text: req.body.text
   });
 
+
   todo.save().then((doc) => {
     res.send(doc);
   }, (e) => {
@@ -98,9 +99,12 @@ app.post('/users', (req, res) => {
   console.log(body);
   var user = new User(body);
   user.save().then((user) => {
-    res.send(user);
-  }, (e) => {
-    res.status(400).send();
+    return user.genAuthToken();
+  }).then((token) => {
+    res.header('x-auth', token).send(user);
+  })
+  .catch((e) => {
+    res.status(400).send(e);
     console.log('Error in Creating user', e);
   });
 });
