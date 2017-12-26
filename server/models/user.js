@@ -7,8 +7,7 @@ const bcryptjs = require('bcryptjs');
 var UserSchema = new mongoose.Schema(
   {
     userName: {
-      type: String,
-      required: true,
+      type: String
     },
     email: {
       type: String,
@@ -71,6 +70,24 @@ catch(e){return Promise.reject();}
     '_id': decoded._id,
     'tokens.token': token,
     'tokens.access': 'auth'
+  });
+};
+
+UserSchema.statics.getUserByCredentials = function(email, password) {
+  var user = this;
+  return user.findOne({email}).then((user) => {
+    if(!user)
+      return Promise.reject();
+
+    return new Promise ((resolve, reject) => {
+      bcryptjs.compare(password, user.password, (err, success) => {
+        if(success)
+           resolve(user);
+        else {
+        reject();
+        }
+      });
+    });
   });
 };
 
