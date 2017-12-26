@@ -1,7 +1,7 @@
 {
   "name": "todo-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Todo API",
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
@@ -29,5 +29,13 @@
     "mocha": "^4.0.1",
     "nodemon": "^1.11.0",
     "supertest": "^3.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajubushanam/node-todo-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rajubushanam/node-todo-api/issues"
+  },
+  "homepage": "https://github.com/rajubushanam/node-todo-api#readme"
 }
